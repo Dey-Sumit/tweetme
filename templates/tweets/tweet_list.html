@@ -1,0 +1,33 @@
+{% extends './base.html' %}
+
+{%  block content %}
+<div class="primary_list">
+  tweet list
+</div>
+
+<script>
+  console.log("working")
+  const xhttp = new XMLHttpRequest()
+  const method = 'GET'
+  const url = "/list"
+  const responseType = "json"
+
+  xhttp.responseType = responseType
+  xhttp.open(method, url)
+  xhttp.onLoad = function() {
+    console.log("ok")
+    console.log(xhr.response)
+  }
+  xhttp.send()
+</script>
+<!-- The XMLHttpRequest Object
+The XMLHttpRequest object can be used to request data from a web server.
+
+The XMLHttpRequest object is a developers dream, because you can:
+
+  Update a web page without reloading the page
+Request data from a server - after the page has loaded
+Receive data from a server - after the page has loaded
+Send data to a server - in the background -->
+
+{%  endblock content %}
