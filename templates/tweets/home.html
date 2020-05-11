@@ -1,7 +1,9 @@
 {% extends '../base.html' %}
+{% load static %}
 
 {%  block content%}
-<div class="container custom_container my-5">
+
+<div class="container header my-5">
   <div class="row justify-content-md-center pt-3">
     <div class="col col-lg-8 text-center">
       <h2>Welcome to whatever </h2>
@@ -9,7 +11,20 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container my-2">
+  <div class="col col-lg-4 mx-auto">
+    <form action="create_tweet/" method="post" id="tweet_creation_form">
+      {% csrf_token %}
+      <input type="hidden" value="/" name="next" id="">
+      <textarea required name="content" rows="4" cols="30" placeholder="your tweet..."></textarea>
+      <button type="submit" name="button" class="btn btn-primary mt-2">tweet it :)</button>
+    </form>
+  </div>
+  <div id="errMsg" class="alert">
+  </div>
+</div>
+
+<div class="container mt-3">
   <div class="row">
     <div class="col col-lg-9 text-center mx-auto">
       <div id="tweets">
@@ -19,57 +34,5 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  const tweetElement = document.getElementById("tweets")
-  tweetElement.innerHTML = "loading..."
-
-  const handleLike = (tweet_id, current_likes) => {
-
-    current_likes++
-    console.log("working")
-    id = "tweet_" + tweet_id
-    updated_likes = "Like " + current_likes
-    likes = document.getElementById(id)
-    likes.innerHTML = updated_likes
-    console.log(updated_likes)
-
-  }
-
-  function likeBtn(tweet) {
-    //console.log(tweet)
-    return "<button id= tweet_" + tweet.id + " class = 'btn btn-sm btn-primary mt-2 custom_btn' onclick = handleLike(" + tweet.id + "," + tweet.likes + ") > Like " + tweet.likes + "</button>"
-  }
-
-  const xhttp = new XMLHttpRequest()
-  const method = 'GET'
-  const url = "/list"
-  const responseType = "json"
-
-  xhttp.responseType = responseType
-  xhttp.open(method, url)
-  xhttp.onload = function() {
-    console.log("working...")
-    const serverResponse = xhttp.response;
-    var listed_tweets = serverResponse.response
-    console.log(listed_tweets)
-    tweetElement.innerHTML = ""
-    var final_tweets = ""
-
-    for (var i = 0; i < listed_tweets.length; i++) {
-
-      var currentItem = `<div class='
-       tweet mb-2 px-1'><h3 class='mt-2'>${listed_tweets[i].id}</h3>
-         <p > ${listed_tweets[i].content}</p>${likeBtn(listed_tweets[i])}</div>`
-      final_tweets += currentItem
-    }
-
-    tweetElement.innerHTML = final_tweets
-  }
-  console.log(xhttp)
-  // trigger the request
-  xhttp.send()
-</script>
-
-
-
+<script src="{% static './js/home.js' %}" charset="utf-8"></script>
 {%  endblock content%}

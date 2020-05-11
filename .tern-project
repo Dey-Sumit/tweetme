@@ -1,0 +1,23 @@
+{
+  "ecmaVersion": 8,
+  "libs": [
+    "browser"
+  ],
+  "loadEagerly": [
+    "path/to/your/js/**/*.js"
+  ],
+  "dontLoad": [
+    "node_modules/**",
+    "path/to/your/js/**/*.js"
+  ],
+  "plugins": {
+    "es_modules": {},
+    "doc_comment": {
+      "fullDocs": true,
+      "strong": true
+    },
+    "complete_strings": {
+      "maxLength": 15
+    }
+  }
+}

@@ -26,7 +26,7 @@ SECRET_KEY = 'a%*0p(z0s$se(&xfp(md3ard1wfne97%+dcc%_h094%=1br3o0'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+LOGIN_URL = '/login'
 
 # Application definition
 
@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # thrid-party
+    'rest_framework',
+    # internal
     'tweetApp'
 ]
 
@@ -106,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -114,8 +117,32 @@ USE_L10N = True
 
 USE_TZ = True
 
+MAX_TWEET_LENGTH = 100
+TWEET_ACTION_OPTIONS = ["like","unlike","retweet"]
+
+
+# if DEBUG:
+#     DEFAULT_RENDERER_CLASSES += [
+#         'rest_framework.renderers.BrowsableAPIRenderer',
+#     ]
+#
+#
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.authentication.SessionAuthentication',
+#     ],
+#     'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+# }
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+# folder created by django to store static files during deployment #manage.py collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
