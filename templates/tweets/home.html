@@ -9,14 +9,16 @@
       <h2>Welcome to whatever </h2>
     </div>
   </div>
-</div>
 
+</div>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="tweetme-2"></div>
 <div class="container my-2">
   <div class="col col-lg-4 mx-auto">
     <form action="create_tweet/" method="post" id="tweet_creation_form">
       {% csrf_token %}
       <input type="hidden" value="/" name="next" id="">
-      <textarea required name="content" rows="4" cols="30" placeholder="your tweet..."></textarea>
+      <textarea required name="content" rows="4" cols="30" placeholder="your tweet..."> </textarea>
       <button type="submit" name="button" class="btn btn-primary mt-2">tweet it :)</button>
     </form>
   </div>
@@ -34,5 +36,5 @@
   </div>
 </div>
 
-<script src="{% static './js/home.js' %}" charset="utf-8"></script>
+<script src="{% static './js-django/home.js' %}" charset="utf-8"></script>
 {%  endblock content%}

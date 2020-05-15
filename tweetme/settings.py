@@ -25,9 +25,10 @@ SECRET_KEY = 'a%*0p(z0s$se(&xfp(md3ard1wfne97%+dcc%_h094%=1br3o0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 LOGIN_URL = '/login'
-
+CORS_ORIGIN_ALLOW_ALL = True  # any website has acces to api
+CORS_URL_REGEX = r'^/api/.*$'
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # thrid-party
     'rest_framework',
+    'corsheaders',
     # internal
     'tweetApp'
 ]
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

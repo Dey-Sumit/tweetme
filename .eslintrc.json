@@ -3,9 +3,18 @@
     "ecmaVersion": 2017
   },
   "env": {
-    "es6": true
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "React": true
   },
   "ecmaFeatures": {
-    "experimentalObjectRestSpread": true
-  }
+    "experimentalObjectRestSpread": true,
+    "jsx": true
+  },
+  "plugins": [
+    "react"
+  ]
 }
