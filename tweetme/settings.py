@@ -25,8 +25,10 @@ SECRET_KEY = 'a%*0p(z0s$se(&xfp(md3ard1wfne97%+dcc%_h094%=1br3o0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 LOGIN_URL = '/login'
+
+
 CORS_ORIGIN_ALLOW_ALL = True  # any website has acces to api
 CORS_URL_REGEX = r'^/api/.*$'
 # Application definition
@@ -121,21 +123,28 @@ USE_L10N = True
 USE_TZ = True
 
 MAX_TWEET_LENGTH = 100
-TWEET_ACTION_OPTIONS = ["like","unlike","retweet"]
+TWEET_ACTION_OPTIONS = ["like", "unlike", "retweet"]
 
+DEFAULT_RENDERER_CLASSES = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
 
-# if DEBUG:
-#     DEFAULT_RENDERER_CLASSES += [
-#         'rest_framework.renderers.BrowsableAPIRenderer',
-#     ]
-#
-#
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.authentication.SessionAuthentication',
-#     ],
-#     'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
-# }
+DEFAULT_AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.SessionAuthentication'
+]
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+    DEFAULT_AUTHENTICATION_CLASSES += [
+        'tweetme.rest_api.dev.DevAuthentication'
+    ]
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

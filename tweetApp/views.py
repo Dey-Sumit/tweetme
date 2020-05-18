@@ -42,21 +42,28 @@ def tweeet_action_view(request,*args,**kwargs):
         if action == "like":
             obj.likes.add(request.user)
             serializer = TweetSerializer(obj)
+            return Response(serializer.data,status=200)
         elif action == "unlike":
             obj.likes.remove(request.user)
+            serializer = TweetSerializer(obj)
+            return Response(serializer.data,status=200)
         elif action == "retweet":
+            print("retweet accepted")
             # create another tweet and make the currebt tweet it's parent
             parent_object = obj
             new_tweet = Tweet.objects.create(user=request.user,parent=parent_object,content=content)
             serializer = TweetSerializer(new_tweet)
-        return Response({"tweet":serializer.data},status=200)
+            return Response(serializer.data,status=201)
+
+        return Response({},status=200)
 
 
 @api_view(['POST'])  # only post method accepts
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request,*args,**kwargs):
     print("request received")
-    serializer = TweetCreateSerializer(data=request.POST)
+    serializer = TweetCreateSerializer(data=request.data)
+    print(request.data)
     print(serializer)
 
     if serializer.is_valid(raise_exception=True):
