@@ -44,7 +44,7 @@ export const lookUp = (method, endpoint, callback, data) => {
     let JsonData;
     if (data) {
         JsonData = JSON.stringify(data)
-        console.log('JsonData', JsonData);
+        //  console.log('JsonData', JsonData);
     }
     xhttp.send(JsonData)
 }

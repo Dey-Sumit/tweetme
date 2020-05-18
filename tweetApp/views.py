@@ -77,8 +77,10 @@ def tweet_create_view(request,*args,**kwargs):
 def tweet_list_view(request, *args, **kwargs):
     print("list tweets")
     qs = Tweet.objects.all()
+    username = request.GET.get('username') # from client side
+    if username!=None:
+        qs=qs.filter(user__username__iexact=username)
     serializer = TweetSerializer(qs,many=True)
-
     # return render(request, 'tweets/tweet_list.html', context={'data':data})
     return Response(serializer.data)  # json.dumps
 

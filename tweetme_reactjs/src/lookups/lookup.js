@@ -3,11 +3,14 @@ import { lookUp } from './lookup-component'
 export const apiTweetCreate = (data, callback) => {
     lookUp('POST', '/create/', callback, { 'content': data })
 }
-
-export const apiTweetList = (callback) => {
-    console.log("looking up GET");
-
-    lookUp('GET', '/', callback)
+export const apiTweetDetail = (tweetId, callback) => {
+    lookUp('GET', `/${tweetId}`, callback)
+}
+export const apiTweetList = (username, callback) => {
+    let endpoint = '/'
+    if (username)
+        endpoint = `/?username=${username}`
+    lookUp('GET', endpoint, callback)
 }
 
 export const apiTweetAction = (tweetId, actionType, callback) => {

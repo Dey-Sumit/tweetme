@@ -4,10 +4,15 @@ import ReactDOM from 'react-dom';
 //import App from './App';
 // import * as serviceWorker from './serviceWorker';
 
-import { TweetCreationForm } from './tweets'
+import { TweetComponent } from './tweets/components'
 const element = document.getElementById("tweetme-2")
+const e = React.createElement
 if (element) {
-  ReactDOM.render(<TweetCreationForm />, element)
+  console.log(element.dataset);
+  const myComponent = e(TweetComponent, element.dataset)
+
+  //ReactDOM.render(<TweetCreationForm />, element)
+  ReactDOM.render(myComponent, element)
 }
 
 // If you want your app to work offline and load faster, you can change
