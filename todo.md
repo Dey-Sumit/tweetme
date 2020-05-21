@@ -39,5 +39,15 @@ Roadmap:
 sumax dey12345
 sumit sumit
 
+http (HyperText Transfer Protocol) status code:---------->
+
+# 200: resouresec susceefully fetched
+# 201: resoureces sucessfully created
+# 400: bad request,server was unable to process the data (mighr have validation error)
+# 401: lack of auth creadential :((unauthorized) 
+# 404: page not found
+
+
+
 
 42. adding a like field

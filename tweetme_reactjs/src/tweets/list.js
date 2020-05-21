@@ -33,7 +33,7 @@ export const TweetList = (props) => {
             }
             apiTweetList(props.username, handleBackendTweetList)
         }
-    }, [tweetsInit, tweetDidSet, setTweetDidSet])
+    }, [tweetsInit, tweetDidSet, setTweetDidSet, props.username])
 
     const handleDidRetweet = (newTweet) => {
         // :(

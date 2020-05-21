@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 // import * as serviceWorker from './serviceWorker';
 
 import { TweetComponent } from './tweets/components'
+import { TweetDetailComponent } from './tweets'
 const element = document.getElementById("tweetme-2")
 const e = React.createElement
 if (element) {
@@ -14,6 +15,22 @@ if (element) {
   //ReactDOM.render(<TweetCreationForm />, element)
   ReactDOM.render(myComponent, element)
 }
+
+const tweetDetailElements = document.querySelectorAll(".tweetme-detail")
+tweetDetailElements.forEach(container => {
+  ReactDOM.render(
+    e(TweetDetailComponent, container.dataset),
+    container)
+});
+
+
+
+
+
+
+
+
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

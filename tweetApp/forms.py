@@ -9,6 +9,8 @@ class TweetForm(forms.ModelForm):
         model = Tweet
         fields = ['content']
 
+    # clean_<'field_name'> does any cleaning that is specific to the patricular field
+    # these method are executed when is_valid() is called
     def clean_content(self):
         content = self.cleaned_data.get("content")
         if len(content) > self.MAX_TWEET_SIZE:

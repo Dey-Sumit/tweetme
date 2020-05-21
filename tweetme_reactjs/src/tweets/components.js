@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TweetList, TweetCreate } from '.'
-
+import { apiTweetDetail } from '../lookups'
+import { Tweet } from './DetailTweet'
 
 export const TweetComponent = (props) => {
     const [newTweets, setNewTweets] = useState([])
@@ -10,10 +11,38 @@ export const TweetComponent = (props) => {
         tempNewTweet.unshift(newTweet)
         setNewTweets(tempNewTweet)
     }
-    return (<div className="className">
+    return (<div className="">
         {canTweet === true && <TweetCreate didTweet={handleNewTweet} className='mx-2 my-4' />}
         <TweetList newTweets={newTweets} {...props} />
     </div>)
 }
 
+
+export const TweetDetailComponent = (props) => {
+    const { tweetid } = props
+    console.log(tweetid);
+
+    const [didLookUp, setDidLookUp] = useState(false)
+    const [tweet, setTweet] = useState(null)
+
+    const handleBackendLoopUp = (response, status) => {
+        if (status === 200) {
+            setTweet(response)
+            console.log("tweet set");
+
+        } else
+            alert("There was an error finding your tweet")
+
+    }
+    useEffect(() => {
+        console.log("use effect called");
+        if (didLookUp === false) {
+            apiTweetDetail(tweetid, handleBackendLoopUp)
+            setDidLookUp(true)
+        }
+    }, [tweetid, didLookUp, setDidLookUp])
+
+    return tweet === null ? null : <Tweet tweet={tweet} />
+
+}
 

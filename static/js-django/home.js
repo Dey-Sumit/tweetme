@@ -83,7 +83,7 @@ const loadTweets = (tweetElement) => {
   xhttp.responseType = responseType
   xhttp.open(method, url)
   xhttp.onload = function () {
-    console.log("working fine bro...")
+    // console.log("working fine bro...")
     const serverResponse = xhttp.response;
     console.log(serverResponse);
     var listed_tweets = serverResponse

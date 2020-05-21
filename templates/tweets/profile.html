@@ -1,0 +1,10 @@
+{% extends '../base.html' %}
+
+{% block content %}
+<h1>Hello {{ profile_username}}..not configured</h1>
+
+<div id='tweetme-2' 
+data-username="{{ profile_username }}"
+ data-can-tweet="false"></div>
+
+{% endblock content %}

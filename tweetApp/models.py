@@ -15,7 +15,7 @@ class Tweet(models.Model):
     user = models.ForeignKey(User,default=1,on_delete=models.CASCADE)
     # self means same model
     # parent != None means this tweet is a retweet (retweet of the parent object(=og tweet))
-    parent = models.ForeignKey("self",null=True,on_delete=models.SET_NULL)
+    parent = models.ForeignKey("self",null=True,blank=True,on_delete=models.SET_NULL)
     content = models.TextField(blank=True, null=True)
     image = models.FileField(upload_to='images/', blank=True, null=True)
     likes = models.ManyToManyField(User,related_name='tweet_user',blank=True, through=TweetLike)

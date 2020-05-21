@@ -24,6 +24,8 @@ class TweetCreateSerializer(serializers.ModelSerializer):
     def get_likes(self,obj):
         return obj.likes.count()
 
+    # validate_<field_name> same as clean_<field_name> in django forms
+    # executed during serializer.valid() call
     def validate_content(self,value):
         if len(value) > self.MAX_TWEET_LENGTH:
             raise serializers.ValidationError("This tweet is too long")
@@ -32,7 +34,6 @@ class TweetCreateSerializer(serializers.ModelSerializer):
 # read only serializer for retweet
 class TweetSerializer(serializers.ModelSerializer):
     MAX_TWEET_LENGTH = settings.MAX_TWEET_LENGTH
-    # likes = serializers.IntegerField()
     likes = serializers.SerializerMethodField(read_only=True)  # MethodField aytomatically calls  get_<field_name> method(default, if not mentioned)
     # content = serializers.SerializerMethodField(read_only=True)
 
@@ -45,6 +46,8 @@ class TweetSerializer(serializers.ModelSerializer):
         fields = ['id','content','likes','is_retweet','parent']
         # we can also serialize a property of a model eg: is_retweet :)cool
 
+    # likes field in model is storing the users who likes the tweet ; so we need to return the total likes
+    # instead if we store the no of likes(does not make any sense :( ) in that like field,we dont need to explicitly define this field in serializer 
     def get_likes(self,obj):
         return obj.likes.count()
 
