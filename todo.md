@@ -36,8 +36,11 @@ Roadmap:
 2.Design admin panel
 
 *superusers*
-sumax dey12345
-sumit sumit
+sumax sumax
+sumit sumit or dey12345 :(
+
+*users*
+twitter tweet12345
 
 http (HyperText Transfer Protocol) status code:---------->
 

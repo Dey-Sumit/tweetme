@@ -15,28 +15,31 @@ function getCookie(name) {
 }
 
 export const lookUp = (method, endpoint, callback, data) => {
-    console.log("look up called");
-
     const xhttp = new XMLHttpRequest()
     const url = `http://localhost:8000/api${endpoint}`
     xhttp.responseType = "json"
-    const csrftoken = getCookie('csrftoken');
     xhttp.open(method, url)
     xhttp.setRequestHeader("Content-Type", "application/json")
 
+    const csrftoken = getCookie('csrftoken');
     if (csrftoken) {
-        // xhttp.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
-        // xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest")
         xhttp.setRequestHeader("X-CSRFToken", csrftoken)
     }
     if (method === "POST") {
         xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest")
     }
     xhttp.onload = function () {
+        // if not logged in,redirect to login page
+        if (xhttp.status === 403 && xhttp.response) {
+            const detail = xhttp.response.detail
+            if (detail === "Authentication credentials were not provided.") {
+                window.location.href = "account/login?showLoginRequired=true"
+            }
+        }
         callback(xhttp.response, xhttp.status)
     }
     xhttp.onerror = (e) => {
-        console.log(e);
+        console.log("error", e)
         callback({
             'msg': 'error on request'
         }, 400)
@@ -44,7 +47,6 @@ export const lookUp = (method, endpoint, callback, data) => {
     let JsonData;
     if (data) {
         JsonData = JSON.stringify(data)
-        //  console.log('JsonData', JsonData);
     }
     xhttp.send(JsonData)
 }

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse,HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 from ..models import Tweet
 from ..forms import TweetForm
@@ -10,8 +11,24 @@ from ..serializers import TweetSerializer,TweetCreateSerializer, TweetActionSeri
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 
-# TODO: check if redirectURL is safe
+
+def get_paginated_queryset_response(qs, request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 20
+    paginated_qs = paginator.paginate_queryset(qs,request)
+    serializer = TweetSerializer(paginated_qs, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def tweet_feed_view(request, *args, **kwargs):
+    # feed = user' tweets + whom they follow's tweets
+    user = request.user
+    qs = Tweet.objects.feed(user)
+    return get_paginated_queryset_response(qs,request)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -72,12 +89,18 @@ def tweet_create_view(request,*args,**kwargs):
 def tweet_list_view(request, *args, **kwargs):
     # print("tweets-list requested...")
     qs = Tweet.objects.all()
+
     # get the username from request object :)
-    username = request.user.username 
+    # username = request.user.username    
+    username = request.GET.get('username') # ?username=sumax from URL
+
     if username!=None:
         qs=qs.filter(user__username__exact=username) # select * from Tweet where user.username=username
+    ''' without pagination ->
     serializer = TweetSerializer(qs,many=True) # many=True,when multiple objects to be serialized
-    return Response(serializer.data)  # json.dumps
+    return Response(serializer.data)
+    '''
+    return get_paginated_queryset_response(qs,request)
 
 
 @api_view(['GET'])

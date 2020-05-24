@@ -8,15 +8,12 @@ const ParentTweet = ({ tweet }) => {
 }
 
 export const Tweet = ({ tweet, didRetweet, hideActions }) => {
-    console.log("Tweet component");
 
     const path = window.location.pathname
     const idRegex = /(?<tweetId>\d+)/
     const match = path.match(idRegex)
     const urlTweetId = match ? match.groups.tweetId : -1
-    console.log(tweet.id, urlTweetId)
     const isDetail = `${tweet.id}` === `${urlTweetId}`
-
     const [actionTweet, setActionTweet] = useState(tweet ? tweet : null)
 
     // when triggesrs it gets the response(new tweet data) from server , it changes the state of the action tweet to the response  
@@ -35,6 +32,7 @@ export const Tweet = ({ tweet, didRetweet, hideActions }) => {
         event.preventDefault()
         window.location.href = `/${tweet.id}`
     }
+
     return (
         <div className="card mx-4 my-2">
             <div className="card-body">
@@ -44,11 +42,12 @@ export const Tweet = ({ tweet, didRetweet, hideActions }) => {
                     </p>
                     <ParentTweet tweet={tweet} />
                 </div>
-                {(actionTweet && hideActions !== true) && <React.Fragment >
-                    <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'like', 'display': 'Likes' }} />
-                    <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'unlike', 'display': 'Unlike' }} />
-                    <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'retweet', 'display': 'Retweet' }} />
-                </React.Fragment>}
+                {(actionTweet && hideActions !== true) &&
+                    <React.Fragment >
+                        <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'like', 'display': 'Likes' }} />
+                        <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'unlike', 'display': 'Unlike' }} />
+                        <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'retweet', 'display': 'Retweet' }} />
+                    </React.Fragment>}
                 {isDetail === true ? null : <button className='btn btn-secondary' onClick={handleLink}> View</button>}
             </div>
         </div>

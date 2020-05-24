@@ -10,6 +10,8 @@ export const apiTweetList = (username, callback) => {
     let endpoint = '/'
     if (username)
         endpoint = `/?username=${username}`
+    console.log(endpoint);
+
     lookUp('GET', endpoint, callback)
 }
 

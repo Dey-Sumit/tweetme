@@ -26,13 +26,10 @@ export const TweetDetailComponent = (props) => {
     const [tweet, setTweet] = useState(null)
 
     const handleBackendLoopUp = (response, status) => {
-        if (status === 200) {
+        if (status === 200)
             setTweet(response)
-            console.log("tweet set");
-
-        } else
+        else
             alert("There was an error finding your tweet")
-
     }
     useEffect(() => {
         console.log("use effect called");
