@@ -37,7 +37,7 @@ class TweetCreateSerializer(serializers.ModelSerializer):
 # read only serializer for retweet
 class TweetSerializer(serializers.ModelSerializer):
     MAX_TWEET_LENGTH = settings.MAX_TWEET_LENGTH
-    author = PublicProfileSerializer(source='user.profile',read_only=True)
+    user = PublicProfileSerializer(source='user.profile',read_only=True)
     likes = serializers.SerializerMethodField(read_only=True)  # MethodField aytomatically calls  get_<field_name> method(default, if not mentioned)
     # content = serializers.SerializerMethodField(read_only=True)
 
@@ -48,7 +48,7 @@ class TweetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tweet
-        fields = ['author','id','content','likes','is_retweet','parent','timestamp']
+        fields = ['user','id','content','likes','is_retweet','parent','timestamp']
         # we can also serialize a property of a model eg: is_retweet :)cool
 
     # likes field in model is storing the users who likes the tweet ; so we need to return the total likes

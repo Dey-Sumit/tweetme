@@ -47,6 +47,8 @@ def profile_update_view(request,*args,**kwargs):
 
 
 def profile_detail_view(request,username,*args,**kwargs):
+    print("profile detail requested not api")
+
     # try:
     #     profile = Profile.objects.get(user__username=username)
     #     context={
@@ -62,9 +64,14 @@ def profile_detail_view(request,username,*args,**kwargs):
     if not qs.exists():
         raise Http404
     profile_obj = qs.first()
+    print(username,profile_obj)
+    user = request.user #me
+    # am I following this user
+    is_following  = user in profile_obj.followers.all()
     context = {
         "username": username,
-        "profile": profile_obj
+        "profile": profile_obj,
+        "is_following":is_following
     }
     return render(request, "profiles/profile.html", context)
 

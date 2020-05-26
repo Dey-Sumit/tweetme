@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TweetList, TweetCreate } from '.'
+import { TweetCreate, TweetFeed } from '.'
 import { apiTweetDetail } from '../lookups'
 import { Tweet } from './DetailTweet'
 
@@ -11,17 +11,15 @@ export const TweetComponent = (props) => {
         tempNewTweet.unshift(newTweet)
         setNewTweets(tempNewTweet)
     }
-    return (<div className="">
+    return (<div>
         {canTweet === true && <TweetCreate didTweet={handleNewTweet} className='mx-2 my-4' />}
-        <TweetList newTweets={newTweets} {...props} />
+        <TweetFeed newTweets={newTweets} {...props} />
+        {/* <TweetList newTweets={newTweets} {...props} /> */}
     </div>)
 }
 
-
 export const TweetDetailComponent = (props) => {
     const { tweetid } = props
-    console.log(tweetid);
-
     const [didLookUp, setDidLookUp] = useState(false)
     const [tweet, setTweet] = useState(null)
 

@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
+
 import { ActionBtn } from '.'
-const ParentTweet = ({ tweet }) => {
+import { UserDisplay, UserPicture } from '../profiles'
+
+const ParentTweet = ({ tweet, retweeter }) => {
     return tweet.parent ?
-        <div className='bg-warning'><p className='px-2'>retweet</p>
+        <div className='bg-secondary'><p className='px-2'>retweet via <UserDisplay user={retweeter} /></p>
             <Tweet hideActions={true} tweet={tweet.parent} />
         </div> : null
 }
 
 export const Tweet = ({ tweet, didRetweet, hideActions }) => {
-
     const path = window.location.pathname
     const idRegex = /(?<tweetId>\d+)/
     const match = path.match(idRegex)
@@ -35,20 +37,28 @@ export const Tweet = ({ tweet, didRetweet, hideActions }) => {
 
     return (
         <div className="card mx-4 my-2">
-            <div className="card-body">
-                <div>
-                    <p className='py-2 my-2 text text-dark bg-white border text-center'>
-                        {tweet.id}- {tweet.content}
-                    </p>
-                    <ParentTweet tweet={tweet} />
+            <div className="card-body d-flex">
+                <div className="col-1">
+                    <UserPicture user={tweet.user} />
                 </div>
-                {(actionTweet && hideActions !== true) &&
-                    <React.Fragment >
-                        <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'like', 'display': 'Likes' }} />
-                        <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'unlike', 'display': 'Unlike' }} />
-                        <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'retweet', 'display': 'Retweet' }} />
-                    </React.Fragment>}
-                {isDetail === true ? null : <button className='btn btn-secondary' onClick={handleLink}> View</button>}
+                <div className="col-11">
+                    <div>
+                        <p className='pl-2 mx-2 text text-dark bg-white'>
+                            <UserDisplay user={tweet.user} includeFullName />
+                        </p>
+                        <p className='py-2 my-2 text text-dark bg-white border text-center'>
+                            {tweet.content}
+                        </p>
+                        <ParentTweet tweet={tweet} retweeter={tweet.user} />
+                    </div>
+                    {(actionTweet && hideActions !== true) &&
+                        <React.Fragment >
+                            <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'like', 'display': 'Likes' }} />
+                            <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'unlike', 'display': 'Unlike' }} />
+                            <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'retweet', 'display': 'Retweet' }} />
+                        </React.Fragment>}
+                    {isDetail === true ? null : <button className='btn btn-secondary' onClick={handleLink}> View</button>}
+                </div>
             </div>
         </div>
     )

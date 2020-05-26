@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,SACI,wBACJ,CAEA,iBACI,iBAAkB,CAClB,OAAQ,CACR,QAAS,CACT,8BACJ","file":"main.20308ca5.chunk.css","sourcesContent":[".pointer {\r\n    cursor: pointer !important;\r\n}\r\n\r\n.vertical-center {\r\n    position: absolute;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\r\n}"]}

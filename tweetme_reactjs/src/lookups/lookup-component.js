@@ -17,6 +17,8 @@ function getCookie(name) {
 export const lookUp = (method, endpoint, callback, data) => {
     const xhttp = new XMLHttpRequest()
     const url = `http://localhost:8000/api${endpoint}`
+    console.log(url);
+
     xhttp.responseType = "json"
     xhttp.open(method, url)
     xhttp.setRequestHeader("Content-Type", "application/json")
@@ -33,7 +35,9 @@ export const lookUp = (method, endpoint, callback, data) => {
         if (xhttp.status === 403 && xhttp.response) {
             const detail = xhttp.response.detail
             if (detail === "Authentication credentials were not provided.") {
-                window.location.href = "account/login?showLoginRequired=true"
+                if (window.location.href.indexOf("login") === -1) {
+                    window.location.href = "account/login?showLoginRequired=true"
+                }
             }
         }
         callback(xhttp.response, xhttp.status)

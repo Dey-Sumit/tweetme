@@ -7,6 +7,7 @@ export const TweetList = (props) => {
     const [tweetsInit, setTweetsInit] = useState([])//initial tweet 
     const [tweets, setTweets] = useState([])
     const [tweetDidSet, setTweetDidSet] = useState(false)
+    const [nextUrl, setNextUrl] = useState(null)
 
     //componentDidUpdate
     useEffect(() => {
@@ -25,7 +26,8 @@ export const TweetList = (props) => {
             console.log("tweetsLoadApi called");
             const handleBackendTweetList = (response, status) => {
                 if (status === 200) {
-                    setTweetsInit(response)
+                    setTweetsInit(response.results)
+                    setNextUrl(response.next)
                     setTweetDidSet(true)
                 }
                 else
@@ -46,10 +48,31 @@ export const TweetList = (props) => {
         setTweetsInit(updatedFinalTweets)
     }
 
-    return <div>{
+    const handleLoadNext = (event) => {
+        event.preventDefault()
+        if (nextUrl != null) {
+            const handleLoadNextResponse = (response, status) => {
+                if (status === 200) {
+                    var nextTweets = response.results
+                    var finalTweets = [...tweets].concat(nextTweets)
+                    setTweets(finalTweets)
+                    setTweetsInit(finalTweets)
+                    setNextUrl(response.next)
+                }
+                else
+                    console.log("There is an error;probably the django server is not running");
+
+            }
+            apiTweetList(props.username, handleLoadNextResponse, nextUrl)
+        }
+    }
+
+    return <React.Fragment> {<div>{
         tweets.map((tweet, index) =>
             <Tweet key={index}
                 didRetweet={handleDidRetweet} tweet={tweet} />
         )
-    }</div>
+    }</div>}
+        {nextUrl != null && <button className='btn btn-primary' onClick={handleLoadNext}>Load More</button>}
+    </React.Fragment>
 }

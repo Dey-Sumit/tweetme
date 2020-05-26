@@ -18,7 +18,7 @@ def get_paginated_queryset_response(qs, request):
     paginator = PageNumberPagination()
     paginator.page_size = 20
     paginated_qs = paginator.paginate_queryset(qs,request)
-    serializer = TweetSerializer(paginated_qs, many=True)
+    serializer = TweetSerializer(paginated_qs, many=True,context={"request":request})
     return paginator.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
@@ -33,6 +33,7 @@ def tweet_feed_view(request, *args, **kwargs):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def tweeet_action_view(request,*args,**kwargs):
+    print("---------------tweet action requested-------------")
     '''
     id is required
     actions options are:like,unlike,retweet
@@ -59,17 +60,17 @@ def tweeet_action_view(request,*args,**kwargs):
          # add(),remove()  uses a 'set semantic' in many to many field; so no need to handle if user already liked or not     
         if action == "like":
             obj.likes.add(request.user)
-            serializer = TweetSerializer(obj)
+            serializer = TweetSerializer(obj,context={"request":request})
             return Response(serializer.data,status=200)
         elif action == "unlike":
             obj.likes.remove(request.user)
-            serializer = TweetSerializer(obj)
+            serializer = TweetSerializer(obj,context={"request":request})
             return Response(serializer.data,status=200)
         elif action == "retweet":
             # create another tweet and make the current tweet it's parent
             parent_object = obj
             new_tweet = Tweet.objects.create(user=request.user,parent=parent_object,content=content)
-            serializer = TweetSerializer(new_tweet)
+            serializer = TweetSerializer(new_tweet,context={"request":request})
             return Response(serializer.data,status=201)
 
         return Response({},status=200)
@@ -78,7 +79,7 @@ def tweeet_action_view(request,*args,**kwargs):
 @api_view(['POST'])  # only post method accepts
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request,*args,**kwargs):
-    serializer = TweetCreateSerializer(data=request.data) #** it's request.data not request.POST 
+    serializer = TweetCreateSerializer(data=request.data,context={"request":request}) #** it's request.data not request.POST 
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
         return JsonResponse(serializer.data,status=201) # status 200: resoures created

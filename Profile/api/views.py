@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from ..models import Profile
+from ..serializer import PublicProfileSerializer
 
 User = get_user_model()
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
@@ -35,10 +36,21 @@ def user_follow_view(request,username,*args,**kwargs):
         to_follow_user_profile.followers.remove(me)
     else:
         pass
+    serializer = PublicProfileSerializer(instance=to_follow_user_profile,context={"request":request})
+    return Response(serializer.data, status=200)
 
-    current_followers_qs = to_follow_user_profile.followers.all()
-    return Response({"count": current_followers_qs.count()}, status=200)
 
+@api_view(['GET'])
+def profile_detail_api_view(request,username,*args,**kwargs):
+    print("got request for username->",username)
+    qs = Profile.objects.filter(user__username=username)
+    if not qs.exists():
+        return Response({"message":"profile does not exist"},status=404)
+    profile_obj = qs.first()
+    #send extra data to the serializer using contsxt
+    serializer = PublicProfileSerializer(instance=profile_obj,context={"request":request})
+    print("ret data-> ",serializer.data)
+    return Response(serializer.data,status=200)
 
 
     

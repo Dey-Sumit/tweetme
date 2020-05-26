@@ -6,14 +6,23 @@
 
   <div class="collapse navbar-collapse " id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <a class="nav-link text-white" href="{% url 'create_tweet' %}">create-tweet</a>
+      {% if not request.user.is_authenticated %}
+      <li class="nav-item ">
+        <a class="nav-link text-warning" href="{% url 'login' %}">login</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link text-warning" href="#">Login</a>
+        <a class="nav-link text-success" href="{% url 'signup' %}">signup</a>
+      </li>
+      {% else %}
+       <li class="nav-item ">
+        <a class="nav-link text-white" href="profile/{{request.user}}">Profile</a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link text-success" href="#"> sign up</a>
+        <a class="nav-link text-success" href="{% url 'logout' %}">logout</a>
+      </li>
+      {% endif %}
+      <li class="nav-item ">
+        <a class="nav-link text-success" href="#">docs</a>
       </li>
 
     </ul>
