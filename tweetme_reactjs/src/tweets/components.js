@@ -12,7 +12,7 @@ export const TweetComponent = (props) => {
         setNewTweets(tempNewTweet)
     }
     return (<div>
-        {canTweet === true && <TweetCreate didTweet={handleNewTweet} className='mx-2 my-4' />}
+        {canTweet === true && <TweetCreate didTweet={handleNewTweet} />}
         <TweetFeed newTweets={newTweets} {...props} />
         {/* <TweetList newTweets={newTweets} {...props} /> */}
     </div>)

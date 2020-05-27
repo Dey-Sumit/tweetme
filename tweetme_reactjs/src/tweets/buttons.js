@@ -8,9 +8,9 @@ export const ActionBtn = ({ tweet, action, didPerformAction }) => {
     //const [userDidLike, setUserDidLike] = useState(false)
     //const [likes, setLikes] = useState(tweet.likes ? tweet.likes : 0)
 
-    let className = 'btn btn-primary mt-2 mx-2'
+    let className = 'btn btn-sm btn-primary mx-1'
     if (action.type === 'retweet')
-        className = `btn mt-2 mx-2 btn-outline-info`
+        className = `btn  btn-sm mx-1 btn-outline-info`
     const actionDisplay = action.display ? action.display : "action"
     const handleBackendAction = (response, status) => {
         console.log(response, status)

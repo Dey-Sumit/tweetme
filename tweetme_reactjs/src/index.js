@@ -9,9 +9,20 @@ import './index.css'
 import { TweetComponent } from './tweets/components'
 import { TweetDetailComponent } from './tweets'
 import { ProfileBadgeComponent } from './profiles'
+import { Home } from './pages/Home.comp'
+
 const element = document.getElementById("tweetme-2")
 
 const e = React.createElement
+
+//for home
+const elementHome = document.getElementById("homepage")
+if (elementHome) {
+  const myComponent = e(Home, elementHome.dataset)
+  ReactDOM.render(myComponent, elementHome)
+}
+
+
 
 // for tweetList
 if (element) {
@@ -52,14 +63,6 @@ tweetDetailElements.forEach(container => {
     e(TweetDetailComponent, container.dataset),
     container)
 });
-
-
-
-
-
-
-
-
 
 
 // If you want your app to work offline and load faster, you can change

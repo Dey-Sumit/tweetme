@@ -33,13 +33,14 @@ export const Tweet = ({ tweet, didRetweet, hideActions }) => {
     const handleLink = (event) => {
         event.preventDefault()
         window.location.href = `/${tweet.id}`
+        
     }
 
     return (
-        <div className="card mx-4 my-2">
+        <div className="card my-2">
             <div className="card-body d-flex">
                 <div className="col-1">
-                    <UserPicture user={tweet.user} />
+                    {/* <UserPicture user={tweet.user} /> */}
                 </div>
                 <div className="col-11">
                     <div>
@@ -52,12 +53,13 @@ export const Tweet = ({ tweet, didRetweet, hideActions }) => {
                         <ParentTweet tweet={tweet} retweeter={tweet.user} />
                     </div>
                     {(actionTweet && hideActions !== true) &&
-                        <React.Fragment >
+                        <div className='d-flex' >
                             <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'like', 'display': 'Likes' }} />
                             <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'unlike', 'display': 'Unlike' }} />
                             <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'retweet', 'display': 'Retweet' }} />
-                        </React.Fragment>}
-                    {isDetail === true ? null : <button className='btn btn-secondary' onClick={handleLink}> View</button>}
+                            {isDetail === true ? null : <button className='btn btn-sm btn-secondary mx-1' onClick={handleLink}> View</button>}
+                        </div>}
+
                 </div>
             </div>
         </div>

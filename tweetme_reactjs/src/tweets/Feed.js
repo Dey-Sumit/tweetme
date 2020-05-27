@@ -71,6 +71,6 @@ export const TweetFeed = (props) => {
                 didRetweet={handleDidRetweet} tweet={tweet} />
         )
     }</div>}
-        {nextUrl != null && <button className='btn btn-primary' onClick={handleLoadNext}>Load More</button>}
+        {nextUrl != null && <div className="text-center my-3"><button className='btn btn-sm btn-info' onClick={handleLoadNext}>Load More</button></div>}
     </React.Fragment>
 }

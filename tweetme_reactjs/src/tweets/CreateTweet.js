@@ -28,7 +28,7 @@ export const TweetCreate = (props) => {
     }
 
     return (
-        <div className="col-8 my-4">
+        <div className="col-10 mx-auto my-4">
             <form action="" onSubmit={handleSubmit}>
                 <textarea required ref={tweet_text_ref} className="form-control" placeholder='tweet it...'></textarea>
                 <button type='submit' className='btn btn-secondary mt-2'>tweet</button>

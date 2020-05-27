@@ -33,7 +33,6 @@ def tweet_feed_view(request, *args, **kwargs):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def tweeet_action_view(request,*args,**kwargs):
-    print("---------------tweet action requested-------------")
     '''
     id is required
     actions options are:like,unlike,retweet
@@ -108,7 +107,7 @@ def tweet_list_view(request, *args, **kwargs):
 def tweet_detail_view(request,tweet_id, *args, **kwargs):
     try:
         qs = Tweet.objects.get(id=tweet_id)
-        serializer = TweetSerializer(qs)
+        serializer = TweetSerializer(qs,context={"request":request})
         return Response(serializer.data,status=200)  # json.dumps status 200:OK,request succeeded
     except ObjectDoesNotExist:
         return Response({'error':'object does not exist'},status=404)
