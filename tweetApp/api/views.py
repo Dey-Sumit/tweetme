@@ -26,6 +26,7 @@ def get_paginated_queryset_response(qs, request):
 def tweet_feed_view(request, *args, **kwargs):
     # feed = user' tweets + whom they follow's tweets
     user = request.user
+    print(user)  
     qs = Tweet.objects.feed(user)
     return get_paginated_queryset_response(qs,request)
 
@@ -78,6 +79,7 @@ def tweeet_action_view(request,*args,**kwargs):
 @api_view(['POST'])  # only post method accepts
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request,*args,**kwargs):
+    print(request.data)
     serializer = TweetCreateSerializer(data=request.data,context={"request":request}) #** it's request.data not request.POST 
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)

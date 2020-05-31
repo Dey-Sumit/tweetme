@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # thrid-party
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     # internal
     'tweetApp',
@@ -65,7 +66,7 @@ ROOT_URLCONF = 'tweetme.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "templates")],
+        'DIRS': [os.path.join(BASE_DIR, "tweetme_reactjs/build"),os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,15 +133,19 @@ DEFAULT_RENDERER_CLASSES = [
     ]
 
 DEFAULT_AUTHENTICATION_CLASSES = [
-    'rest_framework.authentication.SessionAuthentication'
+     'rest_framework.authentication.TokenAuthentication'
+    # 'rest_framework.authentication.SessionAuthentication'
 ]
 if DEBUG:
     DEFAULT_RENDERER_CLASSES += [
         'rest_framework.renderers.BrowsableAPIRenderer',
     ]
-    DEFAULT_AUTHENTICATION_CLASSES += [
-        'tweetme.rest_api.dev.DevAuthentication'
-    ]
+    # DEFAULT_AUTHENTICATION_CLASSES += [
+    #     'tweetme.rest_api.dev.DevAuthentication'
+    # ]
+    # DEFAULT_AUTHENTICATION_CLASSES += [
+    #      'rest_framework.authentication.TokenAuthentication'
+    # ]
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
@@ -155,8 +160,11 @@ STATIC_URL = '/static/'
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'tweetme_reactjs/build/static')
 ]
 
 # folder created by django to store static files during deployment #manage.py collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

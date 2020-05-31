@@ -18,10 +18,12 @@ export const lookUp = (method, endpoint, callback, data) => {
     const xhttp = new XMLHttpRequest()
     const url = `http://localhost:8000/api${endpoint}`
     console.log(url);
-
+    const token = localStorage.getItem('token')
+    const Token = `Token ${token}`
     xhttp.responseType = "json"
     xhttp.open(method, url)
     xhttp.setRequestHeader("Content-Type", "application/json")
+    xhttp.setRequestHeader("Authorization", Token)
 
     const csrftoken = getCookie('csrftoken');
     if (csrftoken) {

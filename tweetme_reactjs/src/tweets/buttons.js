@@ -1,4 +1,6 @@
 import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faThumbsDown, faRetweet } from '@fortawesome/free-solid-svg-icons'
 
 import { apiTweetAction } from '../lookups'
 
@@ -23,6 +25,10 @@ export const ActionBtn = ({ tweet, action, didPerformAction }) => {
         event.preventDefault()
         apiTweetAction(tweet.id, action.type, handleBackendAction)
     }
-    const display = action.type === 'like' ? `${likes} ${actionDisplay}` : actionDisplay
-    return <button className={className} onClick={handleClick}>{display}</button>
+    if (action.type === 'like')
+        return <span className='icon'><FontAwesomeIcon icon={faHeart} onClick={handleClick} /> {likes} </span>
+    else if (action.type === 'unlike')
+        return <span className='icon'><FontAwesomeIcon icon={faThumbsDown} onClick={handleClick} /> </span>
+    else
+        return <span className='icon'><FontAwesomeIcon icon={faRetweet} onClick={handleClick} /></span>
 }

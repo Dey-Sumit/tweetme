@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500&display=swap');
+
+html {
+    overflow-y: scroll;
+}
+
+body {
+    background-color: #15202b;
+    color: #fff;
+    font-family: 'Roboto Slab', serif;
+}
+
+.card {
+    background-color: #15202b;
+    color: #fff;
+}
+
 .pointer {
     cursor: pointer !important;
 }
@@ -10,5 +27,110 @@
 }
 
 .navbar_side_custom {
-    margin-top: 15%;
+    font-weight: 500;
+    margin-top: 8%;
+}
+
+.pb_c-60 {
+    padding-bottom: 60px;
+}
+
+.width_c-100 {
+    width: 100px;
+}
+
+.border_radius_c-20 {
+    border-radius: 20px;
+}
+
+.main_col {
+    /* border: 0 2px 0 2px;
+    border-color: #3e566e;
+    border-style: solid; */
+    border-right: solid #3e566e 1px;
+    border-left: solid #3e566e 1px;
+}
+
+.main_nav_custom {
+    background-color: #15202b;
+    border-bottom: solid #3e566e 1px;
+}
+
+.border_bottom_custom {
+    border-bottom: solid #3e566e 1px;
+
+}
+
+.rounded_small_image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+textarea::placeholder {
+    color: #fff;
+    font-size: 20px;
+}
+
+.icon {
+
+    padding: 8px;
+    border-radius: 50%;
+    transform: scale(1.1);
+}
+
+.icon:hover {
+    cursor: pointer;
+    color: #138496;
+    opacity: 90%;
+
+}
+
+.form-control {
+    background: transparent;
+    color: #fff;
+}
+
+.form-control:focus {
+    background: transparent;
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #fff;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+*:focus {
+    outline: none;
+}
+
+/* remove */
+.image-preview-input {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.image-preview-input input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.image-preview-input-title {
+    margin-left: 2px;
 }

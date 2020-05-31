@@ -1,5 +1,5 @@
 import { UserDisplay, UserLink, UserPicture } from './components'
-import { ProfileBadgeComponent } from './ProfileBadgeComponent'
+import { ProfileBadgeComponent, ProfileEditComponent } from './ProfileBadgeComponent'
 import { apiProfileDetail, apiProfileFollowToggle } from './lookups'
 
 export {
@@ -8,5 +8,6 @@ export {
     UserDisplay,
     UserLink,
     UserPicture,
-    ProfileBadgeComponent
+    ProfileBadgeComponent,
+    ProfileEditComponent
 }

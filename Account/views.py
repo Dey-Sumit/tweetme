@@ -1,6 +1,18 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.forms import  AuthenticationForm,UserCreationForm
+from django.contrib.auth.models import User
+
+
+from rest_framework import viewsets
+
+
+
+
+
+
+
+
 
 def login_view(request,*args,**kwargs):
     # form to login a user

@@ -17,7 +17,8 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, null=True)
     followers = models.ManyToManyField(User,related_name='following',blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    profilePicture = models.ImageField(upload_to='user_profile_pictures')
     
     """
     profile_obj = Profiles.objects.first()
@@ -27,6 +28,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+# signal
 def user_did_save(sender,instance,created,*args, **kwargs):
     # instance :sender model's current instance
     Profile.objects.get_or_create(user=instance)
@@ -37,4 +39,12 @@ def user_did_save(sender,instance,created,*args, **kwargs):
 # connect needs a reciever(embeded in a function) and a sender,
 # post_save.connect() exexute the receiver function when the Sender model is saved   
 post_save.connect(user_did_save,sender=User)
+
+# testing......
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    image = models.ImageField(upload_to='post_images')
     
+    def __str__(self):
+        return self.title

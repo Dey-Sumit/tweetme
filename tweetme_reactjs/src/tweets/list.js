@@ -3,30 +3,30 @@ import { apiTweetList } from '../lookups'
 import { Tweet } from '.'
 
 export const TweetList = (props) => {
-    let { newTweets } = props
     const [tweetsInit, setTweetsInit] = useState([])//initial tweet 
     const [tweets, setTweets] = useState([])
     const [tweetDidSet, setTweetDidSet] = useState(false)
     const [nextUrl, setNextUrl] = useState(null)
 
     //componentDidUpdate
-    useEffect(() => {
-        let finalTweets = [...newTweets].concat(tweetsInit)
-        //when we have new tweet -->
-        //first time tweets.length ==0 (!= final.length),so it updated the tweets which renders tweets.map()
-        if (finalTweets.length !== tweets.length) {
-            setTweets(finalTweets)
-            console.log("final tweets Updated");
-        }
-    }, [newTweets, tweetsInit, tweets])
+    // useEffect(() => {
+    //     let finalTweets = [...newTweets].concat(tweetsInit)
+    //     //when we have new tweet -->
+    //     //first time tweets.length ==0 (!= final.length),so it updated the tweets which renders tweets.map()
+    //     if (finalTweets.length !== tweets.length) {
+    //         setTweets(finalTweets)
+    //         console.log("final tweets Updated");
+    //     }
+    // }, [newTweets, tweetsInit, tweets])
 
     // renders when component mounts,(triggesrs only when loadTweets changes)
     useEffect(() => {
         if (tweetDidSet === false) {
-            console.log("tweetsLoadApi called");
+            //    console.log("tweetsLoadApi called");
             const handleBackendTweetList = (response, status) => {
                 if (status === 200) {
-                    setTweetsInit(response.results)
+                    console.log(response);
+                    setTweets(response.results)
                     setNextUrl(response.next)
                     setTweetDidSet(true)
                 }
@@ -45,7 +45,7 @@ export const TweetList = (props) => {
 
         const updatedFinalTweets = [...tweets]
         updatedFinalTweets.unshift(newTweet)
-        setTweetsInit(updatedFinalTweets)
+        setTweets(updatedFinalTweets)
     }
 
     const handleLoadNext = (event) => {

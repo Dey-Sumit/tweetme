@@ -23,7 +23,7 @@ export const apiTweetList = (username, callback, nextUrl) => {
 
 
 export const apiTweetFeed = (callback, nextUrl) => {
-    let endpoint = '/feed/'
+    let endpoint = `/feed/`
     if (nextUrl !== null && nextUrl !== undefined) {
         endpoint = nextUrl.replace("http://localhost:8000/api", "")
     }

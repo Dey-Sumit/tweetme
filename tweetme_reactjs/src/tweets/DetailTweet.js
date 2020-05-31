@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 import { ActionBtn } from '.'
-import { UserDisplay, UserPicture } from '../profiles'
+import { UserDisplay } from '../profiles'
+import avatar from '../images/avatar.png'
 
 const ParentTweet = ({ tweet, retweeter }) => {
     return tweet.parent ?
-        <div className='bg-secondary'><p className='px-2'>retweet via <UserDisplay user={retweeter} /></p>
+        <div className='border rounded'><p className='px-2'>retweet via <UserDisplay user={retweeter} /></p>
             <Tweet hideActions={true} tweet={tweet.parent} />
         </div> : null
 }
@@ -33,27 +36,28 @@ export const Tweet = ({ tweet, didRetweet, hideActions }) => {
     const handleLink = (event) => {
         event.preventDefault()
         window.location.href = `/${tweet.id}`
-        
+
     }
 
     return (
         <div className="card my-2">
-            <div className="card-body d-flex">
-                <div className="col-1">
+            <div className="card-body d-flex border_bottom_custom">
+                <div className="col-1 px-0">
                     {/* <UserPicture user={tweet.user} /> */}
+                    <img src={tweet.user.profilePicture} alt="..." className="rounded_small_image" />
                 </div>
-                <div className="col-11">
+                <div className="col-11 mb-4 ml-3">
                     <div>
-                        <p className='pl-2 mx-2 text text-dark bg-white'>
+                        <p className='pl-2 mx-2'>
                             <UserDisplay user={tweet.user} includeFullName />
                         </p>
-                        <p className='py-2 my-2 text text-dark bg-white border text-center'>
+                        <p className='py-2 my-2 text-center'>
                             {tweet.content}
                         </p>
                         <ParentTweet tweet={tweet} retweeter={tweet.user} />
                     </div>
                     {(actionTweet && hideActions !== true) &&
-                        <div className='d-flex' >
+                        <div className='d-flex justify-content-around mt-3' >
                             <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'like', 'display': 'Likes' }} />
                             <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'unlike', 'display': 'Unlike' }} />
                             <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ 'type': 'retweet', 'display': 'Retweet' }} />

@@ -4,16 +4,20 @@ import { apiTweetDetail } from '../lookups'
 import { Tweet } from './DetailTweet'
 
 export const TweetComponent = (props) => {
+    //const token = localStorage.getItem("token");
+    const canTweet = localStorage.getItem("signedIn")
+    console.log(canTweet);
+
     const [newTweets, setNewTweets] = useState([])
-    const canTweet = props.canTweet === "false" ? false : true
+
     const handleNewTweet = (newTweet) => {
         let tempNewTweet = [...newTweets]
         tempNewTweet.unshift(newTweet)
         setNewTweets(tempNewTweet)
     }
-    return (<div>
-        {canTweet === true && <TweetCreate didTweet={handleNewTweet} />}
-        <TweetFeed newTweets={newTweets} {...props} />
+    return canTweet && (<div>
+        <TweetCreate didTweet={handleNewTweet} />
+        <TweetFeed newTweets={newTweets} />
         {/* <TweetList newTweets={newTweets} {...props} /> */}
     </div>)
 }

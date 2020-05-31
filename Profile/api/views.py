@@ -8,12 +8,50 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-from ..models import Profile
-from ..serializer import PublicProfileSerializer
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import viewsets
+from ..forms import ProfileForm
+from ..models import Profile,Post
+from ..serializer import PublicProfileSerializer,PostSerializer
+import json
 
 User = get_user_model()
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
+
+class Profile_Update_View(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, *args, **kwargs):
+        qs = Profile.objects.all()
+        serializer = PublicProfileSerializer(qs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            first_name = request.data.get('first_name')
+            last_name = request.data.get('last_name')
+            email = request.data.get('email')
+            bio =  request.data.get('bio')
+            location =  request.data.get('location')
+            profilePicture =  request.data.get('profilePicture')
+            print(first_name,last_name,email,bio,location)
+
+            user = request.user
+            print(user)
+            my_profile = user.profile
+            print(my_profile)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email 
+            user.save()
+            my_profile.bio = bio
+            my_profile.location = location
+            my_profile.profilePicture = profilePicture
+            my_profile.save()
+            return Response({'msg':'OK'}, status=201)
+        except:
+            return Response(status=400)
 
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
