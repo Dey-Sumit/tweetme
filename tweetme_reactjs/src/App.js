@@ -1,19 +1,14 @@
-import React, { useContext, useState } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom'
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom'
 import { Layout } from './Version_2/Layout.comp'
 
-function App(props) {
+function App() {
   return (
     <Router>
-      <Layout {...props} />
+      <Layout />
     </Router>
   )
 
 }
 
 export default App;
-
-{/* <ColorContextProvider>
-        <Route path="/" exact component={Home} />
-        <Route path="/littlehome" exact component={LittleHome} />
-      </ColorContextProvider> */}

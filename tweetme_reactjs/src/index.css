@@ -6,8 +6,28 @@ html {
 
 body {
     background-color: #15202b;
+    height: 100vh;
     color: #fff;
     font-family: 'Roboto Slab', serif;
+}
+
+.tippy-backdrop {
+    background-color: blue;
+}
+
+.bg-color-c {
+    background-color: #15202b;
+}
+
+.tooltip.top .tooltip-arrow,
+.tooltip-inner {
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 
 .card {
@@ -62,8 +82,8 @@ body {
 }
 
 .rounded_small_image {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
 }
 

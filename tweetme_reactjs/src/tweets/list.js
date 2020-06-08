@@ -7,7 +7,7 @@ export const TweetList = (props) => {
     const [tweets, setTweets] = useState([])
     const [tweetDidSet, setTweetDidSet] = useState(false)
     const [nextUrl, setNextUrl] = useState(null)
-
+    const username = localStorage.getItem('username_as')
     //componentDidUpdate
     // useEffect(() => {
     //     let finalTweets = [...newTweets].concat(tweetsInit)
@@ -33,9 +33,9 @@ export const TweetList = (props) => {
                 else
                     console.log("There is an error;probably the django server is not running");
             }
-            apiTweetList(props.username, handleBackendTweetList)
+            apiTweetList(username, handleBackendTweetList)
         }
-    }, [tweetsInit, tweetDidSet, setTweetDidSet, props.username])
+    }, [tweetsInit, tweetDidSet, setTweetDidSet, username])
 
     const handleDidRetweet = (newTweet) => {
         // :(
@@ -63,7 +63,7 @@ export const TweetList = (props) => {
                     console.log("There is an error;probably the django server is not running");
 
             }
-            apiTweetList(props.username, handleLoadNextResponse, nextUrl)
+            apiTweetList(username, handleLoadNextResponse, nextUrl)
         }
     }
 

@@ -133,8 +133,8 @@ DEFAULT_RENDERER_CLASSES = [
     ]
 
 DEFAULT_AUTHENTICATION_CLASSES = [
-     'rest_framework.authentication.TokenAuthentication'
-    # 'rest_framework.authentication.SessionAuthentication'
+    #'rest_framework.authentication.TokenAuthentication',
+    'rest_framework.authentication.SessionAuthentication'
 ]
 if DEBUG:
     DEFAULT_RENDERER_CLASSES += [
@@ -143,13 +143,16 @@ if DEBUG:
     # DEFAULT_AUTHENTICATION_CLASSES += [
     #     'tweetme.rest_api.dev.DevAuthentication'
     # ]
-    # DEFAULT_AUTHENTICATION_CLASSES += [
-    #      'rest_framework.authentication.TokenAuthentication'
-    # ]
+    DEFAULT_AUTHENTICATION_CLASSES += [
+         'rest_framework.authentication.TokenAuthentication'
+    ]
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
-    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES,
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAdminUser'
+#    )
 }
 
 

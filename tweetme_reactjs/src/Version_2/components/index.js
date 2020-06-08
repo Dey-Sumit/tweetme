@@ -1,3 +1,7 @@
 import { NavBar } from './NavBar'
 import { SideNav } from './SideNav'
-export { NavBar, SideNav }
+import { TippyComponent } from './Tippy'
+import { InputField } from './InputField'
+import { Grid } from './Grid'
+
+export { Grid, NavBar, SideNav, TippyComponent, InputField }

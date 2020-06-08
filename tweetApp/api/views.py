@@ -1,17 +1,94 @@
 from django.shortcuts import render
-from django.http import JsonResponse,HttpResponseRedirect
+from django.http import JsonResponse,HttpResponseRedirect,Http404
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 
-from ..models import Tweet
+from ..models import Tweet,TweetComment
 from ..forms import TweetForm
 from django.conf import settings
-from ..serializers import TweetSerializer,TweetCreateSerializer, TweetActionSerializer
+from ..serializers import TweetSerializer,TweetCreateSerializer, TweetActionSerializer,TweetCommentSerializer
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.views import APIView
+from rest_framework.views import status
+from rest_framework import mixins,generics,permissions,authentication
+
+
+class CommentList(APIView):
+    permission_classes=[permissions.IsAuthenticated]
+    def get(self,request,tweet_id):
+        qs = TweetComment.objects.filter(tweet=tweet_id)
+        serializer = TweetCommentSerializer(qs,many=True,context = {'request':request})
+        return Response(serializer.data,status.HTTP_200_OK)
+
+# using genric view :)
+class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = (authentication.SessionAuthentication, authentication.BasicAuthentication, authentication.TokenAuthentication)
+    permission_classes=[permissions.IsAuthenticated]
+    queryset = TweetComment.objects.all()
+    serializer_class = TweetCommentSerializer
+
+"""
+equivalent 1: to the CommentDetail using mixins
+#inherit the mixins of realted method and generic API View and set queryset and serialzer_class and override the views of genric api ..done:)
+class CommentDetail(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
+
+    queryset = TweetComment.objects.all()
+    serializer_class = TweetCommentSerializer
+
+    def get(self,request,*args, **kwargs):
+        return self.retrieve(request,*args, **kwargs) # method from Retrive Mixin
+
+    def put(self,request,*args, **kwargs):
+        return self.update(request,*args, **kwargs) # method from Retrive Mixin
+
+    def delete(self,request,*args, **kwargs):
+        return self.destroy(request,*args, **kwargs) # method from Retrive Mixin
+"""
+"""
+# equivalent:2 to the CommentDetail without using mixins
+class CommentDetail(APIView):
+
+    def get_object(self,pk):
+        try:
+            return TweetComment.objects.get(pk=pk)
+        except TweetComment.DoesNotExist:
+            raise Http404
+
+    def get(self,request,pk):
+        comment = self.get_object(pk)
+        serializer = TweetCommentSerializer(comment,context={'request':request})
+        return Response(serializer.data,status.HTTP_200_OK)
+
+    def put(self,request,pk):
+        comment = self.get_object(pk)
+        serializer = TweetCommentSerializer(comment,data= request.data,context={'request':request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status.HTTP_200_OK)
+        return Response(serializer.errors,status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self,request,pk):
+        comment = self.get_object(pk=pk)
+        comment.delete() 
+        return Response(status.HTTP_200_OK)
+"""
+
+
+
+    
+
+
+
+
+
+
+
+
+
 
 
 def get_paginated_queryset_response(qs, request):
@@ -88,7 +165,9 @@ def tweet_create_view(request,*args,**kwargs):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def tweet_list_view(request, *args, **kwargs):
+    print(request.user)
     # print("tweets-list requested...")
     qs = Tweet.objects.all()
 

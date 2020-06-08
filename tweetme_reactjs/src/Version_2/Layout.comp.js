@@ -1,17 +1,13 @@
-
 import React, { useState } from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 
 import { TweetComponent } from '../tweets/components'
 import { ProfileBadgeComponent, ProfileEditComponent } from '../profiles'
-import { LogoutComponent, LoginComponent } from './Login'
-import { NavBar, SideNav } from './components'
+import { LogoutComponent, LoginComponent } from './Auth/index'
+import { NavBar, SideNav, Grid } from './components'
+import { TweetDetailComponent } from '../tweets'
 
-export const Grid = (props) => {
-    const classname = props.grid
-    return <div className={classname}>{props.children}</div>
-}
-export const Layout = (props) => {
+export const Layout = () => {
     const [auth, setAuth] = useState(null)
 
     const handleAuth = (response) => {
@@ -26,35 +22,23 @@ export const Layout = (props) => {
         <div className="container-fluid">
             <div className="row">
                 <Grid grid='col col-1' />
-                <Grid grid="col col-2">
-                    <SideNav {...props} />
-                </Grid>
-                <div className="col col-5 p-0 main_col">
+                <Grid grid="col col-2"><SideNav /></Grid>
+                <Grid grid='col col-5 p-0 main_col'>
                     <Route path="/" exact render={
                         () =>
-                            <div>
-                                <NavBar header='Tweetme' />
+                            <>  <NavBar header='Tweetme' />
                                 <TweetComponent />
-                            </div>
-                    } />
-
-                    <Route path="/profile/:username" exact render={() =>
-                        <div>
-                            <ProfileBadgeComponent {...props} />
-                        </div>
-                    } />
+                            </>}
+                    />
+                    <Route path="/profile/:username" exact component={ProfileBadgeComponent} />
                     <Route path="/profile/edit/:username" exact component={ProfileEditComponent} />
                     <Route path="/login/" exact render={() => <LoginComponent handleAuth={handleAuth} />} />
-                    <Route path="/logout/" exact render={() => <LogoutComponent handleAuth={handleAuth} />} />
-
-                </div>
-                <div className="col col-3">Cards
-                </div>
-                <div className="col col-1">
-                </div>
-
+                    <Route path="/logout/" exact render={() => <LogoutComponent />} />
+                    <Route path="/tweet/:id" exact component={TweetDetailComponent} />
+                </Grid>
+                <Grid grid="col col-3">Cards</Grid>
+                <Grid grid="col col-1"></Grid>
             </div>
         </div>
     )
-
 }

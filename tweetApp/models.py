@@ -9,6 +9,19 @@ class TweetLike(models.Model):
     tweet = models.ForeignKey("Tweet",on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+class TweetComment(models.Model):
+    content = models.CharField(max_length=50)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    tweet = models.ForeignKey("Tweet",on_delete=models.CASCADE)
+    parent = models.ForeignKey("self",null=True,blank=True,on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content[0:15]+"...by "+self.user.username
+
+    @property
+    def is_reply(self):
+        return self.parent is not None
 
 class TweetQuerySet(models.QuerySet):
     def feed(self,user):
@@ -34,29 +47,21 @@ class TweetManager(models.Manager):
 class Tweet(models.Model):
     user = models.ForeignKey(User,default=1,on_delete=models.CASCADE,related_name='tweets')
     # self means same model
-    # parent != None means this tweet is a retweet (retweet of the parent object(=og tweet))
+    # parent != None means this tweet is a retweet (retweet of the parent object(=original tweet))
     parent = models.ForeignKey("self",null=True,blank=True,on_delete=models.SET_NULL)
     content = models.TextField(blank=True, null=True)
-    image = models.FileField(upload_to='images/', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     likes = models.ManyToManyField(User,related_name='tweet_user',blank=True, through=TweetLike)
+    comments= models.ManyToManyField(User,related_name='tweet_comment',blank=True, through=TweetComment)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     objects = TweetManager()
-
+    
     @property
     def is_retweet(self):
         return self.parent is not None
-    # def __str__(self):
-    #     return self.content
-    '''
-    # serializing of data:convert structured data in a formatted way(here as of dictionary)
-    def serialize(self):
-        return {
-            "id":self.id,
-            "content":self.content,
-            "likes":random.randint(30,300)
-        }
-    '''
 
     class Meta():
         ordering = ['-id']
+
+    

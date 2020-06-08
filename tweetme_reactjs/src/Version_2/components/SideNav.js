@@ -14,7 +14,7 @@ export const NavItem = ({ path, name, icon, color, btnType }) => {
         </li>
     )
 }
-export const SideNav = ({ name, icon, link }) => {
+export const SideNav = () => {
     const username = localStorage.getItem("username_as")
     //console.log(username);
 

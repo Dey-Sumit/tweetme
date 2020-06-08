@@ -2,8 +2,8 @@ import { TweetCreate } from './CreateTweet'
 import { TweetList } from './list';
 import { TweetFeed } from './Feed';
 import { ActionBtn } from './buttons'
-import { Tweet } from './DetailTweet'
-import { TweetDetailComponent } from './components'
+import { Tweet } from './Tweet'
+import { TweetDetailComponent } from './DetailTweet'
 export {
     Tweet,
     ActionBtn,

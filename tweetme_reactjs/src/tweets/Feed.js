@@ -69,13 +69,17 @@ export const TweetFeed = (props) => {
 
     return (
         <React.Fragment>
+
             {<div>{
                 tweets.map((tweet, index) =>
                     <Tweet key={index}
                         didRetweet={handleDidRetweet} tweet={tweet} />
                 )
             }</div>}
-            {nextUrl != null && <div className="text-center my-3"><button className='btn btn-sm btn-info' onClick={handleLoadNext}>Load More</button></div>}
+            {nextUrl != null &&
+                <div className="text-center mb-5">
+                    <button className='btn btn-sm btn-info' onClick={handleLoadNext}>Load More</button>
+                </div >}
         </React.Fragment>
     )
 }
